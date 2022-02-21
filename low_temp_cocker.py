@@ -18,13 +18,13 @@ SENSOR_LABELS={"28-3c01a816d9f0":"water","28-3c01d607f380":"heater2","28-3c01d60
 SENSOR_ADJ={"heater4":17}
 GPIO_PULSE1=16
 GPIO_ENABLE1=12
-TARGET_TEMP=60
+TARGET_TEMP=57
 AVG_NUM=5
-MAX_TIME=24
+MAX_TIME=12
 HEATER_TEST_DURATION=30
 HEATER_ERROR_THRESHOLD=20
 MAX_DIFF_THRESHOLD=3
-HEATER_MAX_TEMP=90
+HEATER_MAX_TEMP=80
 #環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 LINE_NOTICE_TARGET = os.environ["LINE_NOTICE_TARGET"]
@@ -125,6 +125,9 @@ def monitor_temp(st: Value):
         #    wt=sum(correct_data)/len(correct_data)
         if wt>0:
             temp_array.append(wt)
+        h2t=temp_list['heater2']
+        if h2t>0 and h2t<TARGET_TEMP:
+           temp_array.append(h2t)
         if len(temp_array)>AVG_NUM:
             temp_array.pop(0)
         if len(temp_array)>0:
